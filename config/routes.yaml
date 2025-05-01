@@ -1,0 +1,9 @@
+# config/routes.yaml
+app_main:
+    path: /
+    controller: App\Controller\MainController
+
+app_authentication:
+    path: /api/auth
+    controller: App\Controller\SecurityController::login
+    methods: post

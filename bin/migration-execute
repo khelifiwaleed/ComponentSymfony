@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "🚀 Running Doctrine migrations..."
+docker exec -it mariadb-container bash -c "php bin/console doctrine:migrations:migrate -n"
+echo "✅ Migration completed!"
