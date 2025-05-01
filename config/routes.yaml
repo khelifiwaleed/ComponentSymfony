@@ -7,3 +7,7 @@ app_authentication:
     path: /api/auth
     controller: App\Controller\SecurityController::login
     methods: post
+
+app_use_cache_componenet:
+    path: /cache/componenet
+    controller: App\Controller\UseCacheComponenetController

@@ -16,6 +16,19 @@ class CustomerRepository extends ServiceEntityRepository
         parent::__construct($registry, Customer::class);
     }
 
+        /**
+         * @return Customer[] Returns an array of Customer objects
+         */
+        public function findAllCustomer(): array
+        {
+            return $this->createQueryBuilder('t')
+                ->orderBy('t.id', 'ASC')
+                ->setMaxResults(100)
+                ->getQuery()
+                ->getArrayResult()
+            ;
+        }
+
     //    /**
     //     * @return Customer[] Returns an array of Customer objects
     //     */
