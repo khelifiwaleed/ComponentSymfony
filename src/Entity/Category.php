@@ -25,8 +25,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
         ),
         new \ApiPlatform\Metadata\Patch(
             denormalizationContext: ['groups' => ['write:category:collection', 'write:collection']]
-        ),
-        new \ApiPlatform\Metadata\Delete()
+        )
     ]
 )]
 class Category extends Entity

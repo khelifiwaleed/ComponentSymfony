@@ -5,28 +5,28 @@ declare(strict_types=1);
 namespace App\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 trait EntityRepeatedInput
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['read:collection'])]
     protected ?int $id = null;
 
     #[ORM\Column(name: "created_at", type: "datetime", nullable: true)]
+    #[Groups(['read:collection', 'write:collection'])]
     private \DateTimeInterface $createdAt;
 
     #[ORM\Column(name: "updated_at", type: "datetime", nullable: true)]
+    #[Groups(['read:collection', 'write:collection'])]
     private \DateTimeInterface $updatedAt;
 
     public function __construct()
     {
-<<<<<<< Updated upstream
-        $this->createdAt = new \DateTime();
-=======
         $this->createdAt = new \DateTime('now');
         $this->updatedAt = new \DateTime('now');
->>>>>>> Stashed changes
     }
 
     public function getId(): ?int
