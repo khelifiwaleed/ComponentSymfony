@@ -21,7 +21,12 @@ trait EntityRepeatedInput
 
     public function __construct()
     {
+<<<<<<< Updated upstream
         $this->createdAt = new \DateTime();
+=======
+        $this->createdAt = new \DateTime('now');
+        $this->updatedAt = new \DateTime('now');
+>>>>>>> Stashed changes
     }
 
     public function getId(): ?int
@@ -40,12 +45,12 @@ trait EntityRepeatedInput
         return $this;
     }
 
-    public function getUpdatatAt(): \DateTimeInterface
+    public function getUpdatedAt(): \DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdateAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
         return $this;
