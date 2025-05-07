@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource(
@@ -35,6 +36,11 @@ class Category extends Entity
     private ?string $type = null;
 
     #[ORM\Column(name: 'code', nullable: true)]
+    #[Assert\Range(
+        min: 1,
+        max: 10,
+        notInRangeMessage: 'La valeur doit être comprise entre {{ min }} et {{ max }}.'
+    )]
     #[Groups(['read:category:collection', 'write:category:collection'])]
     private ?int $code = null;
 

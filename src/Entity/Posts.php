@@ -7,6 +7,7 @@ use App\Repository\PostsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostsRepository::class)]
 #[ApiResource(
@@ -33,6 +34,13 @@ use Symfony\Component\Serializer\Attribute\Groups;
 class Posts extends Entity
 {
     #[ORM\Column(name: 'titel', length: 255, nullable: true)]
+    #[Assert\NotNull]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Le texte doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le texte ne peut pas dépasser {{ limit }} caractères.'
+    )]
     #[Groups(['read:posts:collection', 'write:posts:collection'])]
     private ?string $titel = null;
 
