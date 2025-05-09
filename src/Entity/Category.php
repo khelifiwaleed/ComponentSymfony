@@ -9,6 +9,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource(
@@ -18,6 +21,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         new \ApiPlatform\Metadata\Get(
             normalizationContext: ['groups' => ['read:category:collection', 'read:collection']]
         ),
+        new \ApiPlatform\Metadata\GetCollection(
+            normalizationContext: ['groups' => ['read:category:collection', 'read:collection']],
+        ),
         new \ApiPlatform\Metadata\Post(
             denormalizationContext: ['groups' => ['write:category:collection', 'write:collection']]
         ),
@@ -26,9 +32,13 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new \ApiPlatform\Metadata\Patch(
             denormalizationContext: ['groups' => ['write:category:collection', 'write:collection']]
+        ),
+        new \ApiPlatform\Metadata\Delete(
+            denormalizationContext: ['groups' => ['write:category:collection', 'write:collection']]
         )
     ]
 )]
+#[ApiFilter(RangeFilter::class, properties: ['code'])]
 class Category extends Entity
 {
     #[ORM\Column(name: 'type', length: 255, nullable: true)]

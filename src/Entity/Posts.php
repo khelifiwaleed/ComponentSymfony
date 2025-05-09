@@ -8,13 +8,26 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+
 
 #[ORM\Entity(repositoryClass: PostsRepository::class)]
 #[ApiResource(
+    paginationClientItemsPerPage: true,
+    paginationItemsPerPage:5,
+    paginationMaximumItemsPerPage:5,
     normalizationContext: ['groups' => ['read:posts:collection', 'read:collection']],
     denormalizationContext: ['groups' => ['write:posts:collection', 'write:collection']],
     operations: [
         new \ApiPlatform\Metadata\Get(
+            normalizationContext: ['groups' => [
+                'read:posts:collection', 'read:category:collection', 'read:collection'
+            ]]
+        ),
+        new \ApiPlatform\Metadata\GetCollection(
             normalizationContext: ['groups' => [
                 'read:posts:collection', 'read:category:collection', 'read:collection'
             ]]
@@ -28,9 +41,15 @@ use Symfony\Component\Validator\Constraints as Assert;
         new \ApiPlatform\Metadata\Patch(
             denormalizationContext: ['groups' => ['write:posts:collection', 'write:collection']]
         ),
-        new \ApiPlatform\Metadata\Delete()
+        new \ApiPlatform\Metadata\Delete(
+            denormalizationContext: ['groups' => ['write:posts:collection', 'write:collection']]
+        )
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['titel' => 'partial', 'id' => 'exact'])]
+#[ApiFilter(ExistsFilter::class, properties: ['id'])]
+#[ApiFilter(OrderFilter::class, properties: ['titel', 'createdAt'])]
+
 class Posts extends Entity
 {
     #[ORM\Column(name: 'titel', length: 255, nullable: true)]
