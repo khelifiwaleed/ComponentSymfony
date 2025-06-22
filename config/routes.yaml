@@ -2,6 +2,7 @@
 app_main:
     path: /
     controller: App\Controller\MainController
+    methods: POST
 
 app_authentication:
     path: /api/auth
